@@ -1,0 +1,16 @@
+
+In 2014, we must adopt #microservices to solve all problems with #monoliths
+In 2016, we must adopt #docker to solve all problems with #microservices
+In 2017, we must adopt #kubernetes to solve all problems with #docker
+In 2018, we must adopt #Istio to solve all problems with #kubernetes
+
+
+References
+----------
+
+- Run Camel / Spring Boot demo with Kubernetes Solo, _https://github.com/TerrenceMiao/camel-spring/blob/master/Kubernetes%20Solo.adoc_
+- Run Camel / Spring Boot demo with Kubernetes Google Cloud, _https://github.com/TerrenceMiao/camel-spring/blob/master/Kubernetes%20Google%20Cloud.adoc_
+
+Copying
+-------
+Copyright (C) 2018 - Terrence Miao. Free use of this software is granted under the terms of the MIT License.
