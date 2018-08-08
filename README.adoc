@@ -6,8 +6,10 @@ Kubernetes
 - In 2017, we must adopt **Kubernetes** to solve all problems with **Docker**
 - In 2018, we must adopt **Istio** to solve all problems with **Kubernetes**
 
-Quick Start
------------
+This document is for someone who want to have a quick dip into Kubernetes world, running with two k8s products on Mac OS X.
+
+Quick Start Docker Edge with Kubernetes
+---------------------------------------
 
 Suppose you have Docker Edge with Kubernetes installed. Basic Kubernetes settings from Docker Edge:
 
@@ -189,10 +191,61 @@ Events:                   <none>
 Now, visit this React Typescript example at: _http://localhost:31546/_
 
 
+Quick Start Minikube
+--------------------
+
+Suppose you have installed Minikube, VirtualBox, kuberctl, and suppose you have done with a few steps of **Quick Start Docker Edge with Kubernetes**. The following are special steps for Minikube.
+
+Start Kubernetes Dashboard:
+
+[source.console]
+----
+𝜆 minikube dashboard
+Opening kubernetes dashboard in default browser...
+----
+
+The default browser will open on URL, e.g. _http://192.168.99.100:30000/_
+
+Find out example **react-typescript** URL after deployed by Kubernetes:
+
+[source.console]
+----
+𝜆 minikube ip
+192.168.99.100
+
+𝜆 minikube service -n default --url react-typescript
+http://192.168.99.100:31442
+----
+
+Visit applcation at: _http://192.168.99.100:31442_
+
+Delete service and deployment of example **react-typescript**:
+
+[source.console]
+----
+𝜆 minikube service list
+|-------------|----------------------|-----------------------------|
+|  NAMESPACE  |         NAME         |             URL             |
+|-------------|----------------------|-----------------------------|
+| default     | kubernetes           | No node port                |
+| default     | react-typescript     | http://192.168.99.100:31442 |
+| kube-system | kube-dns             | No node port                |
+| kube-system | kubernetes-dashboard | http://192.168.99.100:30000 |
+|-------------|----------------------|-----------------------------|
+
+𝜆 kubectl delete service react-typescript
+service "react-typescript" deleted
+
+𝜆 kubectl delete deployment react-typescript
+deployment.extensions "react-typescript" deleted
+----
+
+
 References
 ----------
 
 - Tutorial: Getting Started with Kubernetes with Docker on Mac, _https://rominirani.com/tutorial-getting-started-with-kubernetes-with-docker-on-mac-7f58467203fd_
+- How to Install Kubernetes on Mac with Docker, Minikube, VirtualBox, kuberctl, _https://matthewpalmer.net/kubernetes-app-developer/articles/guide-install-kubernetes-mac.html_
 - Run Camel / Spring Boot demo with Kubernetes Solo, _https://github.com/TerrenceMiao/camel-spring/blob/master/Kubernetes%20Solo.adoc_
 - Run Camel / Spring Boot demo with Kubernetes Google Cloud, _https://github.com/TerrenceMiao/camel-spring/blob/master/Kubernetes%20Google%20Cloud.adoc_
 
