@@ -6,10 +6,10 @@ Kubernetes
 - In 2017, we must adopt **Kubernetes** to solve all problems with **Docker**
 - In 2018, we must adopt **Istio** to solve all problems with **Kubernetes**
 
-This document is for someone who want to have a quick dip into Kubernetes world, running with two k8s products on Mac OS X.
+This is a quick start reference how to start Kubernetes for impatient, running along with two Kubernetes products on Mac OS X.
 
-Quick Start Docker Edge with Kubernetes
----------------------------------------
+Docker Edge with Kubernetes
+---------------------------
 
 Suppose you have Docker Edge with Kubernetes installed. Basic Kubernetes settings from Docker Edge:
 
@@ -191,17 +191,46 @@ Events:                   <none>
 Now, visit this React Typescript example at: _http://localhost:31546/_
 
 
-Quick Start Minikube
---------------------
+Minikube
+--------
 
 Suppose you have installed Minikube, VirtualBox, kuberctl, and suppose you have done with a few steps of **Quick Start Docker Edge with Kubernetes**. The following are special steps for Minikube.
 
-Start Kubernetes Dashboard:
+Start Kubernetes and Dashboard:
 
 [source.console]
 ----
+𝜆 minikube start
+Starting local Kubernetes v1.10.0 cluster...
+Starting VM...
+Getting VM IP address...
+Moving files into cluster...
+Setting up certs...
+Connecting to cluster...
+Setting up kubeconfig...
+Starting cluster components...
+Kubectl is now configured to use the cluster.
+Loading cached images from config file.
+
 𝜆 minikube dashboard
 Opening kubernetes dashboard in default browser...
+
+𝜆 minikube addons list
+- addon-manager: enabled
+- coredns: disabled
+- dashboard: enabled
+- default-storageclass: enabled
+- efk: disabled
+- freshpod: disabled
+- heapster: disabled
+- ingress: disabled
+- kube-dns: enabled
+- metrics-server: disabled
+- nvidia-driver-installer: disabled
+- nvidia-gpu-device-plugin: disabled
+- registry: disabled
+- registry-creds: disabled
+- storage-provisioner: enabled
 ----
 
 The default browser will open on URL, e.g. _http://192.168.99.100:30000/_
