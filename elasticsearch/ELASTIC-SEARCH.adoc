@@ -281,6 +281,8 @@ statefulset.apps "elasticsearch-data" deleted
 service "elasticsearch-data" deleted
 ----
 
+NOTE: Kubernetes can't bind ports on host 0.0.0.0 and host IP address. A solution to work around Kubernetes network issues with Nginx at: _https://github.com/TerrenceMiao/docker/tree/master/nginx_
+
 
 References
 ----------
