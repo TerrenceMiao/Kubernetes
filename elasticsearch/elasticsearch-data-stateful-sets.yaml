@@ -1,0 +1,116 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: elasticsearch-data
+  labels:
+    component: elasticsearch-data
+    role: data
+spec:
+  serviceName: elasticsearch-data
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: elasticsearch-data
+        role: data
+    spec:
+      initContainers:       
+      ## NOTE: To increase the default vm.max_map_count to 262144
+      ##  https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode
+      - name: init-sysctl
+        image: busybox:1.27.2
+        imagePullPolicy: IfNotPresent
+        command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        securityContext:
+          privileged: true
+      containers:
+      - name: elasticsearch
+        securityContext:
+          ## applying fix in: https://github.com/kubernetes/kubernetes/issues/3595#issuecomment-287692878 
+          ##                  https://docs.docker.com/engine/reference/run/#operator-exclusive-options
+          capabilities:
+            add:
+              ## Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2))
+              - IPC_LOCK  
+              ## Override resource Limits
+              - SYS_RESOURCE
+        # image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+        image: elasticsearch:5.6.10-alpine
+        imagePullPolicy: Always
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: CLUSTER_NAME
+          value: elasticsearch-data-cluster
+        - name: "DISCOVERY_SERVICE"
+          value: "elasticsearch-data"          
+        - name: NODE_MASTER
+          value: "false"
+        - name: NODE_INGEST
+          value: "false"
+        - name: HTTP_ENABLE
+          value: "true"
+        - name: ES_JAVA_OPTS
+          value: -Xms256m -Xmx256m
+        - name: PROCESSORS
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
+        resources:
+          requests:
+            cpu: 0.25
+          limits:
+            cpu: 1
+        ports:
+        - containerPort: 9200
+          name: http
+          protocol: TCP
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+        ## Works ONLY with ElasticSearch 6.x  
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: transport
+        #   initialDelaySeconds: 20
+        #   periodSeconds: 10
+        ## Works ONLY with ElasticSearch 6.x  
+        # readinessProbe:
+        #   httpGet:
+        #     path: /_cluster/health
+        #     port: http
+        #   initialDelaySeconds: 20
+        #   timeoutSeconds: 5
+        volumeMounts:
+        - name: storage
+          mountPath: /usr/share/elasticsearch/data
+      ## Error when ElasticSearch starts: java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/nodes
+      ## HostPath (Single node testing only – local storage is not supported in any way and WILL NOT WORK in a multi-node cluster)
+      # volumes:
+      # - name: storage
+      #   hostPath:
+      #     path: /Users/terrence/elasticsearch/data
+      #     type: DirectoryOrCreate 
+      ## Error when ElasticSearch starts: java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/nodes
+      # volumes:
+      # - name: storage
+      #   persistentVolumeClaim:
+      #     claimName: elasticsearch-data-persistent-volume-claim
+  volumeClaimTemplates:
+  - metadata:
+      name: storage
+    spec:
+      storageClassName: standard
+      accessModes: [ ReadWriteOnce ]
+      resources:
+        requests:
+          storage: 10Gi

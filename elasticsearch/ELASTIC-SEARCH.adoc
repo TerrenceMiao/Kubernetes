@@ -1,0 +1,288 @@
+Elastic Search
+==============
+
+Step by step how to deploy elasticsearch container into Kubernetes environment.
+
+Quick Start
+-----------
+
+Start Kubernetes using minikube:
+
+[source.console]
+----
+𝜆 minikube start
+Starting local Kubernetes v1.10.0 cluster...
+Starting VM...
+Getting VM IP address...
+Moving files into cluster...
+Setting up certs...
+Connecting to cluster...
+Setting up kubeconfig...
+Starting cluster components...
+Kubectl is now configured to use the cluster.
+Loading cached images from config file.
+
+𝜆 kubectl cluster-info
+Kubernetes master is running at https://192.168.99.100:8443
+KubeDNS is running at https://192.168.99.100:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+𝜆 kubectl get nodes
+NAME       STATUS    ROLES     AGE       VERSION
+minikube   Ready     master    13h       v1.10.0
+----
+
+Start Kubernetes Dashboard:
+
+[source.console]
+----
+𝜆 minikube dashboard
+Opening kubernetes dashboard in default browser...
+
+𝜆 minikube addons list
+- addon-manager: enabled
+- coredns: disabled
+- dashboard: enabled
+- default-storageclass: enabled
+- efk: disabled
+- freshpod: disabled
+- heapster: disabled
+- ingress: disabled
+- kube-dns: enabled
+- metrics-server: disabled
+- nvidia-driver-installer: disabled
+- nvidia-gpu-device-plugin: disabled
+- registry: disabled
+- registry-creds: disabled
+- storage-provisioner: enabled
+----
+
+Start single node Elasticsearch cluster:
+
+[source.console]
+----
+𝜆 kubectl run elasticsearch --image=docker.elastic.co/elasticsearch/elasticsearch:6.3.2 --env="discovery.type=single-node" --port=9200
+deployment.apps/elasticsearch created
+
+𝜆 kubectl get deployments
+NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+elasticsearch   1         1         1            1           10m
+
+𝜆 kubectl get pods
+NAME                             READY     STATUS    RESTARTS   AGE
+elasticsearch-5d484fdbbd-6nq2n   1/1       Running   0          12m
+
+𝜆 kubectl logs elasticsearch-5d484fdbbd-6nq2n
+OpenJDK 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.
+[2018-08-08T23:30:14,398][INFO ][o.e.n.Node               ] [] initializing ...
+[2018-08-08T23:30:14,522][INFO ][o.e.e.NodeEnvironment    ] [KnDA6iW] using [1] data paths, mounts [[/ (overlay)]], net usable_space [12gb], net total_space [16.1gb], types [overlay]
+[2018-08-08T23:30:14,523][INFO ][o.e.e.NodeEnvironment    ] [KnDA6iW] heap size [1015.6mb], compressed ordinary object pointers [true]
+[2018-08-08T23:30:14,527][INFO ][o.e.n.Node               ] [KnDA6iW] node name derived from node ID [KnDA6iWJQCGsGXio29ODmQ]; set [node.name] to override
+[2018-08-08T23:30:14,528][INFO ][o.e.n.Node               ] [KnDA6iW] version[6.3.2], pid[1], build[default/tar/053779d/2018-07-20T05:20:23.451332Z], OS[Linux/4.15.0/amd64], JVM["Oracle Corporation"/OpenJDK 64-Bit Server VM/10.0.2/10.0.2+13]
+[2018-08-08T23:30:14,528][INFO ][o.e.n.Node               ] [KnDA6iW] JVM arguments [-Xms1g, -Xmx1g, -XX:+UseConcMarkSweepGC, -XX:CMSInitiatingOccupancyFraction=75, -XX:+UseCMSInitiatingOccupancyOnly, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -XX:-OmitStackTraceInFastThrow, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Djava.io.tmpdir=/tmp/elasticsearch.kMzGG8kX, -XX:+HeapDumpOnOutOfMemoryError, -XX:HeapDumpPath=data, -XX:ErrorFile=logs/hs_err_pid%p.log, -Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,pid,tags:filecount=32,filesize=64m, -Djava.locale.providers=COMPAT, -XX:UseAVX=2, -Des.cgroups.hierarchy.override=/, -Des.path.home=/usr/share/elasticsearch, -Des.path.conf=/usr/share/elasticsearch/config, -Des.distribution.flavor=default, -Des.distribution.type=tar]
+[2018-08-08T23:30:19,582][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [aggs-matrix-stats]
+[2018-08-08T23:30:19,582][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [analysis-common]
+[2018-08-08T23:30:19,582][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [ingest-common]
+[2018-08-08T23:30:19,583][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [lang-expression]
+[2018-08-08T23:30:19,583][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [lang-mustache]
+[2018-08-08T23:30:19,583][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [lang-painless]
+[2018-08-08T23:30:19,583][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [mapper-extras]
+[2018-08-08T23:30:19,583][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [parent-join]
+[2018-08-08T23:30:19,584][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [percolator]
+[2018-08-08T23:30:19,584][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [rank-eval]
+[2018-08-08T23:30:19,584][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [reindex]
+[2018-08-08T23:30:19,584][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [repository-url]
+[2018-08-08T23:30:19,584][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [transport-netty4]
+[2018-08-08T23:30:19,585][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [tribe]
+[2018-08-08T23:30:19,585][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-core]
+[2018-08-08T23:30:19,585][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-deprecation]
+[2018-08-08T23:30:19,585][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-graph]
+[2018-08-08T23:30:19,585][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-logstash]
+[2018-08-08T23:30:19,585][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-ml]
+[2018-08-08T23:30:19,586][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-monitoring]
+[2018-08-08T23:30:19,586][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-rollup]
+[2018-08-08T23:30:19,586][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-security]
+[2018-08-08T23:30:19,586][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-sql]
+[2018-08-08T23:30:19,586][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-upgrade]
+[2018-08-08T23:30:19,586][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded module [x-pack-watcher]
+[2018-08-08T23:30:19,587][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded plugin [ingest-geoip]
+[2018-08-08T23:30:19,587][INFO ][o.e.p.PluginsService     ] [KnDA6iW] loaded plugin [ingest-user-agent]
+[2018-08-08T23:30:27,663][INFO ][o.e.x.s.a.s.FileRolesStore] [KnDA6iW] parsed [0] roles from file [/usr/share/elasticsearch/config/roles.yml]
+[2018-08-08T23:30:28,557][INFO ][o.e.x.m.j.p.l.CppLogMessageHandler] [controller/64] [Main.cc@109] controller (64 bit): Version 6.3.2 (Build 903094f295d249) Copyright (c) 2018 Elasticsearch BV
+[2018-08-08T23:30:29,670][INFO ][o.e.d.DiscoveryModule    ] [KnDA6iW] using discovery type [single-node]
+[2018-08-08T23:30:32,555][INFO ][o.e.n.Node               ] [KnDA6iW] initialized
+[2018-08-08T23:30:32,556][INFO ][o.e.n.Node               ] [KnDA6iW] starting ...
+[2018-08-08T23:30:32,968][INFO ][o.e.t.TransportService   ] [KnDA6iW] publish_address {172.17.0.4:9300}, bound_addresses {0.0.0.0:9300}
+[2018-08-08T23:30:33,027][WARN ][o.e.b.BootstrapChecks    ] [KnDA6iW] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+[2018-08-08T23:30:33,150][INFO ][o.e.x.s.t.n.SecurityNetty4HttpServerTransport] [KnDA6iW] publish_address {172.17.0.4:9200}, bound_addresses {0.0.0.0:9200}
+[2018-08-08T23:30:33,150][INFO ][o.e.n.Node               ] [KnDA6iW] started
+[2018-08-08T23:30:33,506][WARN ][o.e.x.s.a.s.m.NativeRoleMappingStore] [KnDA6iW] Failed to clear cache for realms [[]]
+[2018-08-08T23:30:33,648][INFO ][o.e.g.GatewayService     ] [KnDA6iW] recovered [0] indices into cluster_state
+[2018-08-08T23:30:34,332][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.watches] for index patterns [.watches*]
+[2018-08-08T23:30:34,374][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.triggered_watches] for index patterns [.triggered_watches*]
+[2018-08-08T23:30:34,452][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.watch-history-7] for index patterns [.watcher-history-7*]
+[2018-08-08T23:30:34,533][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.monitoring-logstash] for index patterns [.monitoring-logstash-6-*]
+[2018-08-08T23:30:34,688][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.monitoring-es] for index patterns [.monitoring-es-6-*]
+[2018-08-08T23:30:34,741][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.monitoring-alerts] for index patterns [.monitoring-alerts-6]
+[2018-08-08T23:30:34,811][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.monitoring-beats] for index patterns [.monitoring-beats-6-*]
+[2018-08-08T23:30:34,901][INFO ][o.e.c.m.MetaDataIndexTemplateService] [KnDA6iW] adding template [.monitoring-kibana] for index patterns [.monitoring-kibana-6-*]
+[2018-08-08T23:30:34,986][INFO ][o.e.l.LicenseService     ] [KnDA6iW] license [10802963-6eda-4367-b896-ed3a580b3741] mode [basic] - valid
+----
+
+Expose ElasticSearch service in Kubernetes:
+
+[source.console]
+----
+𝜆 kubectl expose deployment elasticsearch --type=LoadBalancer
+service/elasticsearch exposed
+----
+
+Visit ElasticSearch service:
+
+[source.console]
+----
+𝜆 minikube service elasticsearch
+Opening kubernetes service default/elasticsearch in default browser...
+----
+
+Default browser open URL e.g. _http://192.168.99.100:30114/_ with response:
+
+[source,json]
+----
+{
+  "name" : "KnDA6iW",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "Mk_t_ATpSE-DxLTgD6b-4g",
+  "version" : {
+    "number" : "6.3.2",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "053779d",
+    "build_date" : "2018-07-20T05:20:23.451332Z",
+    "build_snapshot" : false,
+    "lucene_version" : "7.3.1",
+    "minimum_wire_compatibility_version" : "5.6.0",
+    "minimum_index_compatibility_version" : "5.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+----
+
+
+Run ElasticSearch with Kubernetes configurations
+------------------------------------------------
+
+Create the ElasticSearch resources and services from the configuration, under the directory has the Kubernetes configuration files:
+
+[source.console]
+----
+𝜆 ls -1
+elasticsearch-data-service.yaml
+elasticsearch-data-stateful-sets.yaml
+
+𝜆 kubectl create -f elasticsearch-data-stateful-sets.yaml
+statefulset.apps/elasticsearch-data created
+
+𝜆 kubectl get statefulset elasticsearch-data
+NAME                 DESIRED   CURRENT   AGE
+elasticsearch-data   1         1         52s
+
+𝜆 kubectl create -f elasticsearch-data-service.yaml
+service/elasticsearch-data created
+
+𝜆 kubectl get service elasticsearch-data
+NAME                 TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
+elasticsearch-data   NodePort   10.104.152.51   10.0.0.100    9200:30920/TCP,9300:30930/TCP   18m
+----
+
+List Kubernetes services:
+
+[source.console]
+----
+𝜆 kubectl get service --all-namespaces
+NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
+default       elasticsearch-data     LoadBalancer   10.104.91.150   10.0.0.100    9200:31383/TCP,9300:30063/TCP   7m
+default       kubernetes             ClusterIP      10.96.0.1       <none>        443/TCP                         3d
+kube-system   kube-dns               ClusterIP      10.96.0.10      <none>        53/UDP,53/TCP                   3d
+kube-system   kubernetes-dashboard   NodePort       10.108.138.47   <none>        80:30000/TCP                    3d
+
+𝜆 minikube service list
+|-------------|----------------------|--------------------------------|
+|  NAMESPACE  |         NAME         |              URL               |
+|-------------|----------------------|--------------------------------|
+| default     | elasticsearch-data   | http://192.168.99.100:30920    |
+|             |                      | http://192.168.99.100:30930    |
+| default     | kubernetes           | No node port                   |
+| kube-system | kube-dns             | No node port                   |
+| kube-system | kubernetes-dashboard | http://192.168.99.100:30000    |
+|-------------|----------------------|--------------------------------|  
+----
+
+Forward a local port to a port on the pod, or with Bash shell script kpoof _https://github.com/farmotive/kpoof_:
+
+[source.console]
+----
+𝜆 kubectl port-forward svc/elasticsearch-data 9200:9200
+Forwarding from 127.0.0.1:9200 -> 9200
+Forwarding from [::1]:9200 -> 9200
+----
+
+then can access the service at: _http://localhost:9200/_
+
+image::ElasticSearch in k8s.png[ElasticSearch in Kubernetes]
+
+Check the host path of Persistent Volume in Kubernetes:
+
+[source.console]
+----
+𝜆 minikube ssh "ls -l /tmp/hostpath-provisioner/pvc-86da0be8-9d5b-11e8-8b30-080027bd97be/nodes/0"
+total 8
+drwxr-xr-x 2 100 101 4096 Aug 12 02:08 _state
+drwxr-xr-x 4 100 101 4096 Aug 11 11:48 indices
+-rw-r--r-- 1 100 101    0 Aug 11 11:42 node.lock
+----
+
+Check minikube shared directory with host:
+
+[source.console]
+----
+𝜆 minikube ssh "ls -al /Users/terrence/elasticsearch/data"
+total 0
+drwxr-xr-x 1 docker docker  96 Aug 12 02:39 .
+drwxr-xr-x 1 docker docker 288 Aug 12 02:07 ..
+drwxr-xr-x 1 docker docker  96 Aug  6 07:47 nodes
+----
+
+Log on minikube host:
+
+[source.console]
+----
+𝜆 minikube ssh
+                         _             _
+            _         _ ( )           ( )
+  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __
+/' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+
+$ pwd
+/home/docker
+----
+
+Clean up:
+
+[source.console]
+----
+𝜆 kubectl delete statefulset elasticsearch-data
+statefulset.apps "elasticsearch-data" deleted
+
+𝜆 kubectl delete service elasticsearch-data
+service "elasticsearch-data" deleted
+----
+
+
+References
+----------
+
+- Setting up Elasticsearch cluster on Kubernetes Single Node Cluster, _https://chekkan.com/setting-up-elasticsearch-cluster-on-kubernetes-part-1/_

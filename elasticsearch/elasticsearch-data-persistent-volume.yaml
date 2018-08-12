@@ -1,0 +1,14 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: elasticsearch-data-persistent-volume
+  labels:
+    type: elasticsearch-data
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 4Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/Users/terrence/elasticsearch/data"

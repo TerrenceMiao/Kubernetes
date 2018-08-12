@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-data
+  labels:
+    component: elasticsearch-data
+    role: data
+spec:
+  ## For dynamically ports allocation
+  # type: LoadBalancer
+  ## For fixed ports, default ports range between 30000 - 32767
+  type: NodePort
+  ports:
+  - port: 9200
+    targetPort: 9200
+    nodePort: 30920
+    name: http
+  - port: 9300
+    targetPort: 9300
+    nodePort: 30930
+    name: transport
+  externalIPs:
+  - 10.0.0.100    
+  selector:
+    component: elasticsearch-data
+    role: data
+# status:
+#   loadBalancer: {}
