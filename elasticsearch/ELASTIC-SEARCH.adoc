@@ -287,4 +287,5 @@ NOTE: Kubernetes can't bind ports on host 0.0.0.0 and host IP address. A solutio
 References
 ----------
 
+- Kubernetes Commands, _https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands_
 - Setting up Elasticsearch cluster on Kubernetes Single Node Cluster, _https://chekkan.com/setting-up-elasticsearch-cluster-on-kubernetes-part-1/_
