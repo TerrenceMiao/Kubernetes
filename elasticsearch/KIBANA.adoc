@@ -1,0 +1,30 @@
+
+
+
+[source.console]
+----
+𝜆 kubectl run kibana --image=kibana:latest --env="ELASTICSEARCH_URL=http://elasticsearch-data:9200" --port=5601
+deployment.apps/kibana created
+
+𝜆 kubectl get deployments
+NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+kibana    1         1         1            1           6m
+
+𝜆 kubectl expose deployment kibana --type=LoadBalancer
+service/kibana exposed
+
+𝜆 minikube service list
+|-------------|----------------------|--------------------------------|
+|  NAMESPACE  |         NAME         |              URL               |
+|-------------|----------------------|--------------------------------|
+| default     | elasticsearch-data   | http://192.168.99.100:30920    |
+|             |                      | http://192.168.99.100:30930    |
+| default     | kibana               | http://192.168.99.100:31232    |
+| default     | kubernetes           | No node port                   |
+| kube-system | kube-dns             | No node port                   |
+| kube-system | kubernetes-dashboard | http://192.168.99.100:30000    |
+|-------------|----------------------|--------------------------------|
+
+𝜆 minikube service kibana
+Opening kubernetes service default/kibana in default browser...
+----
