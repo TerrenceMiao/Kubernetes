@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: elasticsearch-data
+  name: elasticsearch
   labels:
-    component: elasticsearch-data
+    component: elasticsearch
     role: data
 spec:
   ## For dynamically ports allocation
@@ -22,7 +22,7 @@ spec:
   externalIPs:
   - 10.0.0.100    
   selector:
-    component: elasticsearch-data
+    component: elasticsearch
     role: data
 # status:
 #   loadBalancer: {}

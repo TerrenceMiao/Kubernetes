@@ -1,9 +1,9 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: elasticsearch-data-persistent-volume
+  name: elasticsearch-persistent-volume
   labels:
-    type: elasticsearch-data
+    type: elasticsearch
 spec:
   storageClassName: manual
   capacity:

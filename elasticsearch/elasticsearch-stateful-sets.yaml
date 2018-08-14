@@ -1,17 +1,17 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: elasticsearch-data
+  name: elasticsearch
   labels:
-    component: elasticsearch-data
+    component: elasticsearch
     role: data
 spec:
-  serviceName: elasticsearch-data
+  serviceName: elasticsearch
   replicas: 1
   template:
     metadata:
       labels:
-        component: elasticsearch-data
+        component: elasticsearch
         role: data
     spec:
       initContainers:       
@@ -50,9 +50,9 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: CLUSTER_NAME
-          value: elasticsearch-data-cluster
+          value: elasticsearch-cluster
         - name: "DISCOVERY_SERVICE"
-          value: "elasticsearch-data"          
+          value: "elasticsearch"          
         - name: NODE_MASTER
           value: "false"
         - name: NODE_INGEST
@@ -104,7 +104,7 @@ spec:
       # volumes:
       # - name: storage
       #   persistentVolumeClaim:
-      #     claimName: elasticsearch-data-persistent-volume-claim
+      #     claimName: elasticsearch-persistent-volume-claim
   volumeClaimTemplates:
   - metadata:
       name: storage
@@ -113,4 +113,4 @@ spec:
       accessModes: [ ReadWriteOnce ]
       resources:
         requests:
-          storage: 10Gi
+          storage: 4Gi

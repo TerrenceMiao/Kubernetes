@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: elasticsearch-data-persistent-volume-claim
+  name: elasticsearch-persistent-volume-claim
 spec:
   storageClassName: manual
   accessModes:

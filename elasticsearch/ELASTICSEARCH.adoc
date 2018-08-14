@@ -1,7 +1,7 @@
-Elastic Search
-==============
+ElasticSearch
+=============
 
-Step by step how to deploy elasticsearch container into Kubernetes environment.
+Step by step to deploy elasticsearch container into Kubernetes environment.
 
 Quick Start
 -----------
@@ -178,22 +178,22 @@ Create the ElasticSearch resources and services from the configuration, under th
 [source.console]
 ----
 𝜆 ls -1
-elasticsearch-data-service.yaml
-elasticsearch-data-stateful-sets.yaml
+elasticsearch-service.yaml
+elasticsearch-stateful-sets.yaml
 
-𝜆 kubectl create -f elasticsearch-data-stateful-sets.yaml
-statefulset.apps/elasticsearch-data created
+𝜆 kubectl create -f elasticsearch-stateful-sets.yaml
+statefulset.apps/elasticsearch created
 
-𝜆 kubectl get statefulset elasticsearch-data
+𝜆 kubectl get statefulset elasticsearch
 NAME                 DESIRED   CURRENT   AGE
-elasticsearch-data   1         1         52s
+elasticsearch        1         1         52s
 
-𝜆 kubectl create -f elasticsearch-data-service.yaml
-service/elasticsearch-data created
+𝜆 kubectl create -f elasticsearch-service.yaml
+service/elasticsearch created
 
-𝜆 kubectl get service elasticsearch-data
+𝜆 kubectl get service elasticsearch
 NAME                 TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
-elasticsearch-data   NodePort   10.104.152.51   10.0.0.100    9200:30920/TCP,9300:30930/TCP   18m
+elasticsearch        NodePort   10.104.152.51   10.0.0.100    9200:30920/TCP,9300:30930/TCP   18m
 ----
 
 List Kubernetes services:
@@ -202,7 +202,7 @@ List Kubernetes services:
 ----
 𝜆 kubectl get service --all-namespaces
 NAMESPACE     NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
-default       elasticsearch-data     LoadBalancer   10.104.91.150   10.0.0.100    9200:31383/TCP,9300:30063/TCP   7m
+default       elasticsearch          LoadBalancer   10.104.91.150   10.0.0.100    9200:31383/TCP,9300:30063/TCP   7m
 default       kubernetes             ClusterIP      10.96.0.1       <none>        443/TCP                         3d
 kube-system   kube-dns               ClusterIP      10.96.0.10      <none>        53/UDP,53/TCP                   3d
 kube-system   kubernetes-dashboard   NodePort       10.108.138.47   <none>        80:30000/TCP                    3d
@@ -211,7 +211,7 @@ kube-system   kubernetes-dashboard   NodePort       10.108.138.47   <none>      
 |-------------|----------------------|--------------------------------|
 |  NAMESPACE  |         NAME         |              URL               |
 |-------------|----------------------|--------------------------------|
-| default     | elasticsearch-data   | http://192.168.99.100:30920    |
+| default     | elasticsearch        | http://192.168.99.100:30920    |
 |             |                      | http://192.168.99.100:30930    |
 | default     | kubernetes           | No node port                   |
 | kube-system | kube-dns             | No node port                   |
@@ -223,14 +223,14 @@ Forward a local port to a port on the pod, or with Bash shell script kpoof _http
 
 [source.console]
 ----
-𝜆 kubectl port-forward svc/elasticsearch-data 9200:9200
+𝜆 kubectl port-forward svc/elasticsearch 9200:9200
 Forwarding from 127.0.0.1:9200 -> 9200
 Forwarding from [::1]:9200 -> 9200
 ----
 
 then can access the service at: _http://localhost:9200/_
 
-image::ElasticSearch in k8s.png[ElasticSearch in Kubernetes]
+image::ElasticSearch in Kubernetes.png[ElasticSearch in Kubernetes]
 
 Check the host path of Persistent Volume in Kubernetes:
 
@@ -274,11 +274,11 @@ Clean up:
 
 [source.console]
 ----
-𝜆 kubectl delete statefulset elasticsearch-data
-statefulset.apps "elasticsearch-data" deleted
+𝜆 kubectl delete statefulset elasticsearch
+statefulset.apps "elasticsearch" deleted
 
-𝜆 kubectl delete service elasticsearch-data
-service "elasticsearch-data" deleted
+𝜆 kubectl delete service elasticsearch
+service "elasticsearch" deleted
 ----
 
 NOTE: Kubernetes can't bind ports on host 0.0.0.0 and host IP address. A solution to work around Kubernetes network issues with Nginx at: _https://github.com/TerrenceMiao/docker/tree/master/nginx_
