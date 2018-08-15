@@ -24,7 +24,7 @@ service/kibana exposed
 |-------------|----------------------|--------------------------------|
 | default     | elasticsearch        | http://192.168.99.100:30920    |
 |             |                      | http://192.168.99.100:30930    |
-| default     | kibana               | http://192.168.99.100:31232    |
+| default     | kibana               | http://192.168.99.100:30560    |
 | default     | kubernetes           | No node port                   |
 | kube-system | kube-dns             | No node port                   |
 | kube-system | kubernetes-dashboard | http://192.168.99.100:30000    |
