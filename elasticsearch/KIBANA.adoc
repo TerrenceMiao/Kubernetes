@@ -1,9 +1,14 @@
+Kibana
+======
 
+Step by step to deploy kibana container into Kubernetes environment.
 
+Quick Start
+-----------
 
 [source.console]
 ----
-𝜆 kubectl run kibana --image=kibana:latest --env="ELASTICSEARCH_URL=http://elasticsearch-data:9200" --port=5601
+𝜆 kubectl run kibana --image=kibana:latest --env="ELASTICSEARCH_URL=http://elasticsearch:9200" --port=5601
 deployment.apps/kibana created
 
 𝜆 kubectl get deployments
@@ -17,7 +22,7 @@ service/kibana exposed
 |-------------|----------------------|--------------------------------|
 |  NAMESPACE  |         NAME         |              URL               |
 |-------------|----------------------|--------------------------------|
-| default     | elasticsearch-data   | http://192.168.99.100:30920    |
+| default     | elasticsearch        | http://192.168.99.100:30920    |
 |             |                      | http://192.168.99.100:30930    |
 | default     | kibana               | http://192.168.99.100:31232    |
 | default     | kubernetes           | No node port                   |
@@ -28,3 +33,23 @@ service/kibana exposed
 𝜆 minikube service kibana
 Opening kubernetes service default/kibana in default browser...
 ----
+
+
+Run Kibana with Kubernetes configurations
+-----------------------------------------
+
+[source.console]
+----
+𝜆 kubectl create -f kibana-deployment.yaml
+deployment.apps/kibana created
+
+𝜆 kubectl create -f kibana-service.yaml
+service/kibana created
+----
+
+
+References
+----------
+
+- Setting up Elasticsearch Cluster on Kubernetes - Part 2 - Kibana, _https://chekkan.com/setting-up-elasticsearch-cluster-on-kubernetes-part-2-kibana/_
+- Setting Up Elasticsearch Cluster on Kubernetes - Part 3 - Configuration File, _https://chekkan.com/setting-up-elasticsearch-cluster-on-kubernetes-part-3-config-file/_
