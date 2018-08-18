@@ -270,6 +270,62 @@ $ pwd
 /home/docker
 ----
 
+In minikube VM, login ElasticSearch's docker VM:
+
+[source.console]
+----
+$ docker ps -a
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS                      PORTS               NAMES
+8bca4218b409        elasticsearch                "/docker-entrypoint.…"   9 minutes ago       Up 9 minutes                                    k8s_elasticsearch_elasticsearch-0_default_1546349c-a2b9-11e8-af7e-080027bd97be_0
+
+$ docker exec -it 8bca4218b409 /bin/bash
+bash-4.4# pwd
+/usr/share/elasticsearch
+
+bash-4.4# ls -al
+total 256
+drwxr-xr-x    1 root     root          4096 Jul 11 01:25 .
+drwxr-xr-x    1 root     root          4096 Jul 11 01:25 ..
+-rw-r--r--    1 root     root         11358 Jun  6 15:44 LICENSE.txt
+-rw-r--r--    1 root     root        194187 Jun  6 15:49 NOTICE.txt
+-rw-r--r--    1 root     root          9491 Jun  6 15:44 README.textile
+drwxr-xr-x    2 root     root          4096 Jul 11 01:25 bin
+drwxr-xr-x    1 1001     1001           192 Aug 18 07:13 config
+drwxrwxrwx    3 elastics elastics      4096 Aug 14 22:43 data
+drwxr-xr-x    2 root     root          4096 Jun  6 15:50 lib
+drwxr-xr-x    1 elastics elastics      4096 Jul 11 01:25 logs
+drwxr-xr-x   13 root     root          4096 Jun  6 15:50 modules
+drwxr-xr-x    2 root     root          4096 Jun  6 15:50 plugins
+
+bash-4.4# cat config/elasticsearch.yml
+cluster.name: "docker-cluster"
+http.host: 0.0.0.0
+
+## ElasticSearch 6.x
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+# discovery.zen.minimum_master_nodes: 1
+
+## ElasticSearch 6.x
+# X-Pack monitoring and your license will expire within 30 days - https://www.elastic.co/guide/en/x-pack/current/license-expiration.html
+# xpack.license.self_generated.type: basic
+# xpack.security.enabled: false
+
+## ElasticSearch 5.x CORS enabled
+http.cors:
+  enabled: true
+  # ALL domains. Open to cross origin requests from anywhere if /https?:\/\/localhost(:[0-9]+)?/
+  allow-origin: /.*/
+  allow-credentials: true
+  # Defaults methods to: OPTIONS, HEAD, GET, POST, PUT, DELETE
+  # allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+  # Defaults to X-Requested-With, Content-Type, Content-Length
+  # allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length
+----
+
+NOTE: Elasticsearch data are copied from host shared directory /Users/terrence/elasticseach/data; ElasticSearch "config" directory is mapped to host /Users/terrence/elasticseach/config directory which has customised configuration in "elasticsearch.yml" file.
+
 Clean up:
 
 [source.console]

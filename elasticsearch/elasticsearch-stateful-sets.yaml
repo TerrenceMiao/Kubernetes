@@ -93,6 +93,8 @@ spec:
         volumeMounts:
         - name: storage
           mountPath: /usr/share/elasticsearch/data
+        - name: configuration
+          mountPath: /usr/share/elasticsearch/config            
       ## Error when ElasticSearch starts: java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/nodes
       ## HostPath (Single node testing only – local storage is not supported in any way and WILL NOT WORK in a multi-node cluster)
       # volumes:
@@ -100,11 +102,14 @@ spec:
       #   hostPath:
       #     path: /Users/terrence/elasticsearch/data
       #     type: DirectoryOrCreate 
-      ## Error when ElasticSearch starts: java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/nodes
-      # volumes:
       # - name: storage
       #   persistentVolumeClaim:
       #     claimName: elasticsearch-persistent-volume-claim
+      volumes:
+      - name: configuration
+        hostPath:
+          path: /Users/terrence/elasticsearch/config
+          type: Directory      
   volumeClaimTemplates:
   - metadata:
       name: storage
