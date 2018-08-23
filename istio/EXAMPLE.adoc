@@ -1,0 +1,105 @@
+Istio Example
+=============
+
+This is demo how to run setup and run Istio example - Book Info.
+
+Installation
+============
+
+[source.console]
+----
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 bin/istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml | kubectl apply -f -
+service/details created
+deployment.extensions/details-v1 created
+service/ratings created
+deployment.extensions/ratings-v1 created
+service/reviews created
+deployment.extensions/reviews-v1 created
+deployment.extensions/reviews-v2 created
+deployment.extensions/reviews-v3 created
+service/productpage created
+deployment.extensions/productpage-v1 created
+
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+gateway.networking.istio.io/bookinfo-gateway created
+virtualservice.networking.istio.io/bookinfo created
+
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+details-v1-6d6c7fb7d8-gtvh8       2/2       Running   0          6m
+productpage-v1-5c8465958d-6npld   2/2       Running   0          6m
+ratings-v1-5dbb9bdb9b-sz6kk       2/2       Running   0          6m
+reviews-v1-69d794c794-47hll       2/2       Running   0          6m
+reviews-v2-688db5f6db-8g88r       2/2       Running   0          6m
+reviews-v3-6bd4b6b858-7t2kx       2/2       Running   0          6m
+----
+
+Run Application
+===============
+
+[source.console]
+----
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl -n default get svc productpage
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+productpage   ClusterIP   10.96.243.118   <none>        9080/TCP   57m
+
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl get pod -n default -l app=productpage -o jsonpath='{.items[0].metadata.name}'
+productpage-v1-5c8465958d-6npld
+
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl port-forward -n default (kubectl get pod -n default -l app=productpage -o jsonpath='{.items[0].metadata.name}') 9080:9080
+Forwarding from 127.0.0.1:9080 -> 9080
+Forwarding from [::1]:9080 -> 9080
+----
+
+Go to URL http://localhost:9080/productpage
+
+Visit the product page and signin as a user jason (password jason).
+
+Add reviews
+===========
+
+[source.console]
+----
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml
+virtualservice.networking.istio.io/reviews created
+
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
+virtualservice.networking.istio.io/reviews configured
+
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+virtualservice.networking.istio.io/reviews configured
+----
+
+Check Virtual Service
+=====================
+
+[source.console]
+----
+terrence@igloo /usr/local/istio-1.0.0
+𝜆 bin/istioctl get virtualservices
+VIRTUAL-SERVICE NAME   GATEWAYS           HOSTS     #HTTP     #TCP      NAMESPACE   AGE
+bookinfo               bookinfo-gateway   *             1        0      default     51m
+reviews                                   reviews       1        0      default     4m
+----
+
+
+Kic off Metrics
+===============
+
+[source.console]
+----
+while true; do  
+    curl -s http://localhost:9080/productpage > /dev/null
+    echo -n .;
+    sleep 0.2
+done
+----
