@@ -309,8 +309,32 @@ Access Grafana:
 
 [source.console]
 ----
-terrence@igloo /usr/local/istio-1.0.0
-10:36:07 𝜆 kubectl -n istio-system port-forward (kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
+𝜆 kubectl -n istio-system get svc grafana
+NAME      TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+grafana   ClusterIP   10.99.64.215   <none>        3000/TCP   2d
+
+𝜆 kubectl -n istio-system describe svc grafana
+Name:              grafana
+Namespace:         istio-system
+Labels:            app=grafana
+                   chart=grafana-0.1.0
+                   heritage=Tiller
+                   release=RELEASE-NAME
+Annotations:       kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"grafana","chart":"grafana-0.1.0","heritage":"Tiller","release":"RELEA...
+Selector:          app=grafana
+Type:              ClusterIP
+IP:                10.99.64.215
+Port:              http  3000/TCP
+TargetPort:        3000/TCP
+Endpoints:         172.17.0.8:3000
+Session Affinity:  None
+Events:            <none>
+
+𝜆 kubectl -n istio-system get ep grafana
+NAME      ENDPOINTS         AGE
+grafana   172.17.0.8:3000   2d
+
+𝜆 kubectl -n istio-system port-forward svc/grafana 3000:3000
 Forwarding from 127.0.0.1:3000 -> 3000
 Forwarding from [::1]:3000 -> 3000
 ----
@@ -322,7 +346,7 @@ Access Prometheus:
 [source.console]
 ----
 terrence@igloo /usr/local/istio-1.0.0
-𝜆 kubectl -n istio-system port-forward (kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090
+𝜆 kubectl -n istio-system port-forward svc/prometheus 9090:9090
 Forwarding from 127.0.0.1:9090 -> 9090
 Forwarding from [::1]:9090 -> 9090
 ----
@@ -334,7 +358,7 @@ Access Jaeger, the tracing:
 [source.console]
 ----
 terrence@igloo /usr/local/istio-1.0.0
-𝜆 kubectl port-forward -n istio-system (kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686
+𝜆 kubectl -n istio-system port-forward svc/jaeger 16686:16686
 Forwarding from 127.0.0.1:16686 -> 16686
 Forwarding from [::1]:16686 -> 16686
 ----
