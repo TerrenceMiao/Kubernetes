@@ -19,15 +19,17 @@ Waiting for remaining agents
 All Weave Cloud agents are connected!
 ----
 
-Go to Weave Cloud and check:
+Go to Weave Cloud https://cloud.weave.works/
+
+Dashboard in Weave Cloud
+------------------------
 
 image::Weave - Dashboard.png[Dashboard in Weave Cloud]
 
-Dashboard in Weave Cloud
+Containers in Weave Cloud
+-------------------------
 
 image::Weave - Containers.png[Containers in Weave Cloud]
-
-Containers in Weave Cloud
 
 Uninstall the Weave Cloud agents with: 
 
