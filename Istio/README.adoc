@@ -83,13 +83,13 @@ image::Fault Injection.png[Fault Injection]
 Kubernetes and Istio Ecosystem
 ------------------------------
 
-From improved performance to greatly simplified administration and security, to all with better telemetry data across microservices.
+Today some companies' cloud strategy is just a combination of lift and shift of existing workloads (legacy applications) to the cloud, and writing new cloud application code for new applications, in order to reduce Capital Expenses (CAPEX) and Operating Expenses (OPEX). This approach misses so many benefits of the cloud.
+
+From improved performance, greatly simplified administration and security, to all with better telemetry data across microservices.
 
 With the cloud services platform you can better control traffic with dynamic route configuration and it is easier to conduct A/B tests and make canary release. Not only you just manage the implementation and deployment of a service but also manage the service itself as it is running.
 
-Today some companies' cloud strategy is just a combination of lift and shift of existing workloads (legacy applications) to the cloud, and writing new cloud application code for new applications, in order to reduce Capital Expenses (CAPEX) and Operating Expenses (OPEX). This approach misses so many benefits of the cloud.
-
-In contrast, Istio combined with Kubernetes, you get a common platform, against with a common service, common APIs and security model for lower operational complexity and faster innovation.
+Istio combined with Kubernetes, now you can get a common platform, against with a common service, common APIs and security model for lower operational complexity and faster innovation.
 
 Configure Istio CRD
 -------------------
