@@ -36,4 +36,5 @@ Uninstall the Weave Cloud agents with:
 [source.console]
 ----
 𝜆 kubectl delete namespace weave
+namespace "weave" deleted
 ----
