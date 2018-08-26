@@ -24,21 +24,21 @@ Istio, is a "service mesh". It aims to unify traffic flow management, access pol
 
 image::Istio Architecture.png[Istio Architecture]
 
-##### Pilot is for Service Discovery and Config Data to Envoys
+#### Pilot is for Service Discovery and Config Data to Envoys
 
 image::Pilot Architecture.png[Pilot Architecture]
 
-#### Mixer
+### Mixer
 
 image::Mixer Architecture.png[Mixer Architecture]
 
-#### Istio provides Role Based Access Control (RBAC)
+### Istio provides Role Based Access Control (RBAC)
 
 image::Istio-Auth Architecture.png[Istio-Auth Architecture]
 
 image::Istio RBAC.png[Istio Role Based Access Control]
 
-#### Communication between Envoys and Services
+### Communication between Envoys and Services
 
 Traffic is transparently intercepted and proxied between Envoy proxy and Services. Envoy's presence is transparent to Services by using IP Tables.
 
@@ -54,13 +54,13 @@ Traffic is transparently intercepted and proxied between Envoy proxy and Service
 | Fault Injection           | Fault Injection
 |====================================================
 
-#### Tracing
+### Tracing
 
 image::Distributed Tracing.png[Distributed Tracing]
 
 image::Metrics Collecting.png[Metrics Collecting]
 
-#### Canary Release
+### Canary Release
 
 image::Canary Release 1.png[Canary Release]
 
@@ -68,15 +68,15 @@ image::Canary Release 2.png[Canary Release]
 
 image::Canary Release 3.png[Canary Release]
 
-#### Circuit Breaker
+### Circuit Breaker
 
 image::Circuit Breaker.png[Circuit Breaker]
 
-#### Rate Limits
+### Rate Limits
 
 image::Rate Limits.png[Rate Limits]
 
-#### Fault Injection
+### Fault Injection
 
 image::Fault Injection.png[Fault Injection]
 
