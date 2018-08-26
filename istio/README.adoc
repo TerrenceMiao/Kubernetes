@@ -1,6 +1,90 @@
 Istio
 =====
 
+Before you know what is Istio, you need to know what is **Service Mesh**.
+
+Service Mesh is often used to describe the network of microservices that make up such applications and the interactions between them. As a service mesh grows in size and complexity, it can become harder to understand and manage. Its requirements can include service discovery, load balancing, circuit breaker, failure recovery, retries, metrics, and monitoring, and often more complex operational requirements such as A/B testing, canary releases, rate limiting, access control, and end-to-end authentication.
+
+image::Service Mesh Evolution - Genesis.png[Service Mesh Evolution - Genesis]
+
+image::Service Mesh Evolution - Library.png[Service Mesh Evolution - Library]
+
+image::Service Mesh Evolution - Proxy.png[Service Mesh Evolution - Proxy]
+
+image::Service Mesh Evolution - Network.png[Service Mesh Evolution - Network]
+
+image::Service Mesh Evolution - Centralisation.png[Service Mesh Evolution - Centralisation]
+
+History Always Repeat Itself
+----------------------------
+
+Istio, is a "service mesh". It aims to unify traffic flow management, access policy enforcement and telemetry data aggregation across microservices into a shared management console, regardless of environment. Istio can discover, connect and monitor services holistically across multiple locations in one place without having to change code.
+
+image::Istio Architecture.png[Istio Architecture]
+
+Pilot is for Service Discovery and Config Data to Envoys
+
+image::Pilot Architecture.png[Pilot Architecture]
+
+image::Mixer Architecture.png[Mixer Architecture]
+
+Istio provides Role Based Access Control (RBAC)
+
+image::Istio-Auth Architecture.png[Istio-Auth Architecture]
+
+image::Istio RBAC.png[Istio Role Based Access Control]
+
+Traffic is transparently intercepted and proxied between Envoy proxy and Services. Envoy's presence is transparent to Services by using IP Tables.
+
+[width="60%",frame="topbot",options="header"]
+|====================================================
+| Outbound (To Service)     | Inbound (To Envoy)
+| Service authentication    | Service authentication
+| Load Balancing            | Authorization
+| Retry and circuit breaker | Rate limits
+| Fine-grained routing      | Load shedding
+| Telemetry                 | Telemetry
+| Request Tracing           | Request Tracing
+| Fault Injection           | Fault Injection
+|====================================================
+
+Tracing
+
+image::Distributed Tracing.png[Distributed Tracing]
+
+image::Metrics Collecting.png[Metrics Collecting]
+
+Canary Release
+
+image::Canary Release 1.png[Canary Release]
+
+image::Canary Release 2.png[Canary Release]
+
+image::Canary Release 3.png[Canary Release]
+
+Circuit Breaker
+
+image::Circuit Breaker.png[Circuit Breaker]
+
+Rate Limits
+
+image::Rate Limits.png[Rate Limits]
+
+Fault Injection
+
+image::Fault Injection.png[Fault Injection]
+
+Benefit of Istio
+----------------
+
+From improved performance to greatly simplified administration and security, to all with better telemetry data across microservices.
+
+With the cloud services platform you can better control traffic with dynamic route configuration and it is easier to conduct A/B tests and make canary release. You not only just manage the implementation and deployment of a service but also manage the service itself as it is running.
+
+Today some companies' cloud strategy is just a combination of lift and shift of existing workloads (legacy applications) to the cloud, and writing new cloud application code for new applications, in order to reduce Capital Expenses (CAPEX) and Operating Expenses (OPEX). This approach misses so many benefits of the cloud.
+
+In contrast Istio, combined with Kubernetes, you get a common platform, against with a common service, common APIs and security model for lower operational complexity and faster innovation.
+
 Configure Istio CRD
 -------------------
 
@@ -372,3 +456,10 @@ Go to Jaeger Dashboard at http://localhost:16686
 image::Jaeger Dashboard.png[Jaeger Dashboard]
 
 image::Jaeger Tracing.png[Jaeger Tracing]
+
+References
+----------
+
+- Istio 入伙 kubernetes 生态圈，Google 微服务版图里程碑式扩张 https://zhuanlan.zhihu.com/p/35546641
+- 谈谈微服务架构中的基础设施：Service Mesh与Istio https://zhaohuabing.com/2018/03/29/what-is-service-mesh-and-istio/
+- Cloud Native Landscape https://github.com/cncf/landscape
