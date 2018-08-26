@@ -460,6 +460,5 @@ image::Jaeger Tracing.png[Jaeger Tracing]
 References
 ----------
 
-- Istio 入伙 kubernetes 生态圈，Google 微服务版图里程碑式扩张 https://zhuanlan.zhihu.com/p/35546641
 - 谈谈微服务架构中的基础设施：Service Mesh与Istio https://zhaohuabing.com/2018/03/29/what-is-service-mesh-and-istio/
 - Cloud Native Landscape https://github.com/cncf/landscape
