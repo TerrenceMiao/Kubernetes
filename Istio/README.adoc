@@ -80,8 +80,8 @@ image::Rate Limits.png[Rate Limits]
 - - -
 image::Fault Injection.png[Fault Injection]
 
-Kubernetes and Istio Econsystem
--------------------------------
+Kubernetes and Istio Ecosystem
+------------------------------
 
 From improved performance to greatly simplified administration and security, to all with better telemetry data across microservices.
 
