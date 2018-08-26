@@ -1,7 +1,7 @@
+image::Hands on Kubernetes and Istio.jpg[Hands on Kubernetes and Istio]
+
 Istio
 =====
-
-image::Hands on Kubernetes and Istio.jpg[Hands on Kubernetes and Istio]
 
 Before you know what is Istio, you need to know what is **Service Mesh**.
 
@@ -24,19 +24,21 @@ Istio, is a "service mesh". It aims to unify traffic flow management, access pol
 
 image::Istio Architecture.png[Istio Architecture]
 
-**Pilot** is for Service Discovery and Config Data to Envoys
+##### Pilot is for Service Discovery and Config Data to Envoys
 
 image::Pilot Architecture.png[Pilot Architecture]
 
-**Mixer**
+##### Mixer
 
 image::Mixer Architecture.png[Mixer Architecture]
 
-Istio provides **Role Based Access Control (RBAC)**
+##### Istio provides Role Based Access Control (RBAC)
 
 image::Istio-Auth Architecture.png[Istio-Auth Architecture]
 
 image::Istio RBAC.png[Istio Role Based Access Control]
+
+##### Communication between Envoys and Services
 
 Traffic is transparently intercepted and proxied between Envoy proxy and Services. Envoy's presence is transparent to Services by using IP Tables.
 
@@ -52,13 +54,13 @@ Traffic is transparently intercepted and proxied between Envoy proxy and Service
 | Fault Injection           | Fault Injection
 |====================================================
 
-**Tracing**
+##### Tracing
 
 image::Distributed Tracing.png[Distributed Tracing]
 
 image::Metrics Collecting.png[Metrics Collecting]
 
-**Canary Release**
+##### Canary Release
 
 image::Canary Release 1.png[Canary Release]
 
@@ -66,28 +68,28 @@ image::Canary Release 2.png[Canary Release]
 
 image::Canary Release 3.png[Canary Release]
 
-**Circuit Breaker**
+##### Circuit Breaker
 
 image::Circuit Breaker.png[Circuit Breaker]
 
-**Rate Limits**
+##### Rate Limits
 
 image::Rate Limits.png[Rate Limits]
 
-**Fault Injection**
+##### Fault Injection
 
 image::Fault Injection.png[Fault Injection]
 
-Benefit of Istio
-----------------
+Kubernetes and Istio Econsystem
+-------------------------------
 
 From improved performance to greatly simplified administration and security, to all with better telemetry data across microservices.
 
-With the cloud services platform you can better control traffic with dynamic route configuration and it is easier to conduct A/B tests and make canary release. You not only just manage the implementation and deployment of a service but also manage the service itself as it is running.
+With the cloud services platform you can better control traffic with dynamic route configuration and it is easier to conduct A/B tests and make canary release. Not only you just manage the implementation and deployment of a service but also manage the service itself as it is running.
 
 Today some companies' cloud strategy is just a combination of lift and shift of existing workloads (legacy applications) to the cloud, and writing new cloud application code for new applications, in order to reduce Capital Expenses (CAPEX) and Operating Expenses (OPEX). This approach misses so many benefits of the cloud.
 
-In contrast Istio, combined with Kubernetes, you get a common platform, against with a common service, common APIs and security model for lower operational complexity and faster innovation.
+In contrast, Istio combined with Kubernetes, you get a common platform, against with a common service, common APIs and security model for lower operational complexity and faster innovation.
 
 Configure Istio CRD
 -------------------
@@ -151,7 +153,7 @@ customresourcedefinition.apiextensions.k8s.io/handlers.config.istio.io created
 ----
 
 Install Istio with default mutual TLS authentication
-====================================================
+----------------------------------------------------
 
 To Install Istio and enforce mutual TLS authentication by default, use the yaml istio-demo-auth.yaml. This will deploy Pilot, Mixer, Ingress-Controller, and Egress-Controller, and the Istio CA (Certificate Authority):
 
