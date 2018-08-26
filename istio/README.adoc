@@ -1,6 +1,8 @@
 Istio
 =====
 
+image::Hands on Kubernetes and Istio.jpg[Hands on Kubernetes and Istio]
+
 Before you know what is Istio, you need to know what is **Service Mesh**.
 
 Service Mesh is often used to describe the network of microservices that make up such applications and the interactions between them. As a service mesh grows in size and complexity, it can become harder to understand and manage. Its requirements can include service discovery, load balancing, circuit breaker, failure recovery, retries, metrics, and monitoring, and often more complex operational requirements such as A/B testing, canary releases, rate limiting, access control, and end-to-end authentication.
@@ -22,13 +24,15 @@ Istio, is a "service mesh". It aims to unify traffic flow management, access pol
 
 image::Istio Architecture.png[Istio Architecture]
 
-Pilot is for Service Discovery and Config Data to Envoys
+**Pilot** is for Service Discovery and Config Data to Envoys
 
 image::Pilot Architecture.png[Pilot Architecture]
 
+**Mixer**
+
 image::Mixer Architecture.png[Mixer Architecture]
 
-Istio provides Role Based Access Control (RBAC)
+Istio provides **Role Based Access Control (RBAC)**
 
 image::Istio-Auth Architecture.png[Istio-Auth Architecture]
 
@@ -48,13 +52,13 @@ Traffic is transparently intercepted and proxied between Envoy proxy and Service
 | Fault Injection           | Fault Injection
 |====================================================
 
-Tracing
+**Tracing**
 
 image::Distributed Tracing.png[Distributed Tracing]
 
 image::Metrics Collecting.png[Metrics Collecting]
 
-Canary Release
+**Canary Release**
 
 image::Canary Release 1.png[Canary Release]
 
@@ -62,15 +66,15 @@ image::Canary Release 2.png[Canary Release]
 
 image::Canary Release 3.png[Canary Release]
 
-Circuit Breaker
+**Circuit Breaker**
 
 image::Circuit Breaker.png[Circuit Breaker]
 
-Rate Limits
+**Rate Limits**
 
 image::Rate Limits.png[Rate Limits]
 
-Fault Injection
+**Fault Injection**
 
 image::Fault Injection.png[Fault Injection]
 
