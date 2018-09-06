@@ -468,3 +468,4 @@ References
 
 - 谈谈微服务架构中的基础设施：Service Mesh与Istio https://zhaohuabing.com/2018/03/29/what-is-service-mesh-and-istio/
 - Cloud Native Landscape https://github.com/cncf/landscape
+- Istio - Weaving the Service Mesh https://www.infoq.com/presentations/istio-service-mesh
