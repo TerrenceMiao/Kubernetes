@@ -1,0 +1,56 @@
+Kubernetes Network
+==================
+
+Kubernetes Network, the hard part.
+
+Pod
+---
+
+image::https://cdn-images-1.medium.com/max/1200/1*8OD0MgDNu3Csq0tGpS8Obg.png[Pod]
+
+image::https://cdn-images-1.medium.com/max/1200/1*iTAVk3glVD95hb-X3HiCKg.png[Replicas]
+
+Pod is an atomic unit wraps one or more containers, which can be replicated, scaled up and down in Kubernetes.
+
+Node
+----
+
+image::https://cdn-images-1.medium.com/max/1200/1*uyMd-QxYaOk_APwtuScsOg.png[Node]
+
+A node is a computing resource in Kubernetes.
+
+Cluster
+-------
+
+image::https://cdn-images-1.medium.com/max/1200/1*KoMzLETQeN-c63x7xzSKPw.png[Cluster]
+
+Hivemind like abstract layer pooling nodes together to form a more powerful CPU and RAM resources.
+
+Persistent Volumes
+------------------
+
+image::https://cdn-images-1.medium.com/max/1200/1*kF57zE9a5YCzhILHdmuRvQ.png[Persistent Volumes]
+
+Persistent Volumes provide a network file system that can be mounted to the cluster without being associated with any particular node.
+
+
+Network
+=======
+
+Ingress
+-------
+
+image::https://cdn-images-1.medium.com/max/1200/1*tBJ-_g4Mk5OkfzLEHrRsRw.png[Ingress]
+
+Ingress opens up a channel to communicate with services running on Pods which isolated from outside world.
+
+
+References
+==========
+
+- Kubernetes 101: Pods, Nodes, Containers, and Clusters, _https://medium.com/google-cloud/kubernetes-101-pods-nodes-containers-and-clusters-c1509e409e16_
+
+
+Copying
+-------
+Copyright (C) 2018 - Terrence Miao. Free use of this software is granted under the terms of the MIT License.
