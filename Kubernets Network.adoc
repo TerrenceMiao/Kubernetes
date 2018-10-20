@@ -37,6 +37,11 @@ Persistent Volumes provide a network file system that can be mounted to the clus
 Network
 =======
 
+- All containers should communicate with each other without NAT (Network Address Translation)
+- All nodes should communicate with all containers without NAT (Network Address Translation)
+- The IP as seen by one container is the same as seen by the other container (in other words, Kubernetes bans any IP masquerading)
+- Pods can communicate regardless of what Node they sit on
+
 Ingress
 -------
 
