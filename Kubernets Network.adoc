@@ -42,6 +42,10 @@ Network
 - The IP as seen by one container is the same as seen by the other container (in other words, Kubernetes bans any IP masquerading)
 - Pods can communicate regardless of what Node they sit on
 
+image::https://cloud.google.com/kubernetes-engine/images/networking-overview_single-node.png[Networking overview single node]
+
+image::https://cloud.google.com/kubernetes-engine/images/networking-overview_load-balancer.png[Networking overview load balancer]
+
 Ingress
 -------
 
@@ -49,6 +53,10 @@ image::https://cdn-images-1.medium.com/max/1200/1*tBJ-_g4Mk5OkfzLEHrRsRw.png[Ing
 
 Ingress opens up a channel to communicate with services running on Pods which isolated from outside world.
 
+Service
+-------
+
+image::https://cloud.google.com/kubernetes-engine/images/networking-overview_two-services.png[Service]
 
 References
 ==========
