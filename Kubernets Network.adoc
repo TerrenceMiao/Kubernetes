@@ -63,7 +63,9 @@ image::https://cloud.google.com/kubernetes-engine/images/networking-overview_two
 References
 ==========
 
-- Kubernetes 101: Pods, Nodes, Containers, and Clusters, _https://medium.com/google-cloud/kubernetes-101-pods-nodes-containers-and-clusters-c1509e409e16_
+- Kubernetes Networking: Behind the scenes, _https://itnext.io/kubernetes-networking-behind-the-scenes-39a1ab1792bb_
+- A Guide to the Kubernetes Networking Model, _https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/_
+- Kubernetes The Hard Way, _https://github.com/kelseyhightower/kubernetes-the-hard-way_
 
 
 Copying
