@@ -12,6 +12,8 @@ image::https://cdn-images-1.medium.com/max/1200/1*iTAVk3glVD95hb-X3HiCKg.png[Rep
 
 Pod is an atomic unit wraps one or more containers, which can be replicated, scaled up and down in Kubernetes.
 
+image::https://cdn-images-1.medium.com/max/800/1*oyGbXt7kStLd85ZT4it3oQ.png[Understanding kubernetes networking: Pods]
+
 Node
 ----
 
